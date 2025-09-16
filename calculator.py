@@ -1,4 +1,24 @@
 # calculator.py
+
+
+def add(x: Number, y: Number) -> Number:
+return x + y
+
+
+
+
+def subtract(x: Number, y: Number) -> Number:
+return x - y
+
+
+
+
+def multiply(x: Number, y: Number) -> Number:
+return x * y
+
+
+
+
 def divide(x: Number, y: Number) -> Union[Number, str]:
 """Return x / y or a descriptive error string when dividing by zero.
 
