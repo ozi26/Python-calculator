@@ -1,85 +1,56 @@
-# calculator.py
+from typing import Union, TypeVar
 
+Number = TypeVar('Number', int, float)
 
 def add(x: Number, y: Number) -> Number:
-return x + y
-
-
-
+    """Return the sum of x and y."""
+    return x + y
 
 def subtract(x: Number, y: Number) -> Number:
-return x - y
-
-
-
+    """Return the difference of x and y."""
+    return x - y
 
 def multiply(x: Number, y: Number) -> Number:
-return x * y
-
-
-
+    """Return the product of x and y."""
+    return x * y
 
 def divide(x: Number, y: Number) -> Union[Number, str]:
-"""Return x / y or a descriptive error string when dividing by zero.
+    """Return x / y or an error message if y is zero."""
+    if y == 0:
+        return "Error: Division by zero is not allowed."
+    return x / y
 
-
-You can change behavior to raise ZeroDivisionError if you prefer tests to expect exceptions.
-"""
-if y == 0:
-return "Error! Division by zero."
-return x / y
-
-
-
-
-# Keep interactive CLI out of imports
 def main() -> None:
-# simple command-line interface — this runs only when executed as a script
-print("Simple Calculator")
-print("Select operation:")
-print("1. Add")
-print("2. Subtract")
-print("3. Multiply")
-print("4. Divide")
+    """Run an interactive command-line calculator."""
+    print("Welcome to the Simple Calculator!")
+    print("Operations: 1) Add  2) Subtract  3) Multiply  4) Divide")
 
+    while True:
+        choice = input("\nEnter operation (1-4) or 'q' to quit: ").lower()
+        if choice == 'q':
+            print("Thank you for using the calculator. Goodbye!")
+            break
 
-while True:
-choice = input("\nEnter choice (1/2/3/4) or 'q' to quit: ")
+        if choice not in ['1', '2', '3', '4']:
+            print("Invalid choice. Please select 1, 2, 3, or 4.")
+            continue
 
+        try:
+            x = float(input("Enter first number: "))
+            y = float(input("Enter second number: "))
+        except ValueError:
+            print("Invalid input. Please enter numeric values.")
+            continue
 
-if choice == 'q':
-print("Exiting calculator. Goodbye!")
-break
-
-
-if choice in ['1', '2', '3', '4']:
-try:
-num1 = float(input("Enter first number: "))
-num2 = float(input("Enter second number: "))
-except ValueError:
-print("Invalid input! Please enter numbers only.")
-continue
-
-
-if choice == '1':
-print(f"Result: {add(num1, num2)}")
-
-
-elif choice == '2':
-print(f"Result: {subtract(num1, num2)}")
-
-
-elif choice == '3':
-print(f"Result: {multiply(num1, num2)}")
-
-
-elif choice == '4':
-print(f"Result: {divide(num1, num2)}")
-else:
-print("Invalid choice. Please select a valid option.")
-
-
-
+        operations = {
+            '1': (add, "Addition"),
+            '2': (subtract, "Subtraction"),
+            '3': (multiply, "Multiplication"),
+            '4': (divide, "Division")
+        }
+        func, op_name = operations[choice]
+        result = func(x, y)
+        print(f"{op_name} result: {result}")
 
 if __name__ == "__main__":
-main()
+    main()
