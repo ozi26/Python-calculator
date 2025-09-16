@@ -10,9 +10,13 @@ jobs:
   test:
     name: Test on Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+    env:
+      # Make sure tests can import modules from the repository root
+      PYTHONPATH: ${{ github.workspace }}
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: [3.8, 3.9, 3.10, 3.11]
+
 
     steps:
       - name: Checkout repo
@@ -31,55 +35,52 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+
       - name: Lint (flake8) — optional
         run: |
           pip install flake8 || true
-          # If you have a flake8 config (.flake8 or setup.cfg) it will be used.
+          # Run flake8 only if a config exists or you want to always run it.
           if [ -f .flake8 ] || [ -f setup.cfg ]; then
             flake8
           else
             echo "No flake8 config found — skipping strict linting"
           fi
 
-      - name: Run pytest if tests exist
+
+      - name: Run pytest
         run: |
           pip install pytest || true
-          if [ -d tests ] || ls tests* 1> /dev/null 2>&1; then
-            pytest -q
-          else
-            echo "No tests directory or test files found — skipping pytest"
-          fi
+          pytest -q
+
 
       - name: Smoke test — import functions and run assertions
-        # Adjust the import path below if your file is named differently (e.g., calculator.py)
         run: |
           python - <<'PY'
-          # This assumes your calculator functions are in calculator.py at repo root:
-          # add, subtract, multiply, divide
           try:
               from calculator import add, subtract, multiply, divide
           except Exception as e:
-              print("Could not import calculator.py:", e)
+              print('Could not import calculator.py:', e)
               raise
+
 
           assert add(2, 3) == 5
           assert subtract(5, 2) == 3
           assert multiply(3, 4) == 12
           assert divide(10, 2) == 5
 
-          # Ensure division-by-zero behavior does not crash unexpectedly (accept any handled behavior)
+
           try:
               r = divide(1, 0)
-              # if your divide returns a string for zero division (like "Error! ..."), that's OK
-              print("divide(1,0) returned:", r)
+              print('divide(1,0) returned:', r)
           except Exception as ex:
-              # Some implementations raise an exception for divide by zero; treat that as okay here
-              print("divide(1,0) raised exception (acceptable):", ex)
+              print('divide(1,0) raised exception (acceptable):', ex)
 
-          print("Smoke tests passed")
+
+          print('Smoke tests passed')
           PY
