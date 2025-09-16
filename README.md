@@ -1,24 +1,35 @@
-# Simple Python Calculator
+Simple Calculator
+A basic Python calculator application with a command-line interface for performing addition, subtraction, multiplication, and division.
+
+Features
+
+Supports basic arithmetic operations: add, subtract, multiply, divide.
+Handles division by zero with an error message.
+Interactive CLI for user input.
+Tested with pytest for reliability.
+
+Setup
+
+Clone the repository:git clone https://github.com/<your-username>/<your-repo>.git
 
 
-This is a small demo Python project that provides basic calculator functions and a simple CLI.
+Install dependencies:pip install -r requirements.txt
 
 
-## Files
+Run the calculator:python calculator.py
 
 
-- `calculator.py` — pure functions (add, subtract, multiply, divide) and a `main()` CLI guarded by `if __name__ == '__main__'`.
-- `cli.py` — thin launcher you can run: `python cli.py`.
-- `tests/` — pytest-based tests that validate calculator behavior.
-- `.github/workflows/python-ci.yml` — GitHub Actions workflow that runs tests across multiple Python versions.
 
+Testing
+Run tests using pytest:
+pytest -v
 
-## Run locally
+GitHub Actions
+The project uses GitHub Actions to run tests on push and pull requests to the main branch. The workflow:
 
+Tests on Python versions 3.8, 3.9, 3.10, and 3.11.
+Installs dependencies from requirements.txt.
+Runs tests with pytest.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate # or .venv\Scripts\activate on Windows
-pip install -r requirements.txt
-pytest
-python cli.py
+License
+MIT
