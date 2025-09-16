@@ -1,3 +1,1 @@
-# no runtime dependencies for this simple project
-# Add test/dev packages only if you want them pinned here
-pytest
+pytest>=7.0.0
