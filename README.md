@@ -2,8 +2,6 @@
 
 A basic Python calculator application with a command-line interface for performing addition, subtraction, multiplication, and division.
 
-[![Python CI](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml)
-
 ## Features
 - Supports basic arithmetic operations: add, subtract, multiply, divide.
 - Handles division by zero with an error message.
